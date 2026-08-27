@@ -61,7 +61,13 @@ async function run() {
     console.log(`CPU architecture: ${arch}`);
 
     // Hardware profile used for creating the AVD
-    const profile = core.getInput('profile');
+    const requestedProfile = core.getInput('profile');
+    // The inherited manual workflow hard-codes the obsolete Galaxy Nexus
+    // profile. Use a current phone definition for this synthetic RCS control
+    // so Android exposes the telephony and SMS feature set expected by
+    // Messages. This changes only AVD hardware configuration, not the signed
+    // Google Play system image or its product identity.
+    const profile = requestedProfile === 'Galaxy Nexus' ? 'pixel_6' : requestedProfile;
     console.log(`Hardware profile: ${profile}`);
 
     // Number of cores to use for emulator
